@@ -1,0 +1,12 @@
+node_modules/
+Temp/session/
+Temp/tests/outputs/
+assets/*
+!assets/README.md
+*.vrm
+*.mp4
+*.task
+*.ckpt
+.env
+.env.*
+*.log

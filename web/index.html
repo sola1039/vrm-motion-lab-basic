@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VRM基础动作实验台</title>
+  <link rel="stylesheet" href="/web/style.css">
+  <link rel="stylesheet" href="/web/player.css">
+  <script type="importmap">
+  {"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/","@pixiv/three-vrm":"/vendor/vrm/three-vrm.module.min.js"}}
+  </script>
+  <script type="module" src="/web/app.mjs"></script>
+</head>
+<body>
+  <header><div><p class="eyebrow">本地预览 / 骨骼调试 / 动作回放</p><h1>VRM基础动作实验台</h1><p class="subtitle">选择自己的角色, 按时间戳回放动作, 检查骨骼与口型.</p></div><span id="status" role="status">请选择模型</span></header>
+  <main>
+    <section class="stage-panel" aria-label="人物预览">
+      <div class="stage-bar"><label for="model-file">选择本地VRM模型</label><input id="model-file" type="file" accept=".vrm"><button id="load-model">载入本地默认模型</button><span>如需更换模型, 请刷新页面.</span></div>
+      <div class="stage-bar"><span id="model-info">加载本地模型</span><div class="views"><button data-view="front">正面</button><button data-view="left">左侧</button><button data-view="right">右侧</button><button data-view="back">背面</button></div></div>
+      <div id="stage"><p id="loading">请选择资源已嵌入的单文件VRM模型</p></div>
+      <section id="playback" class="playback" aria-label="动作播放器">载入模型后可播放动作</section>
+      <div class="stage-footer"><label><input id="show-bones" type="checkbox">显示标准骨架</label><label><input id="show-axes" type="checkbox" checked>显示关节转轴</label><span>拖动旋转视角, 滚轮缩放</span></div>
+    </section>
+    <aside>
+      <fieldset id="control-panel" disabled>
+        <legend>关节控制</legend>
+        <div class="field"><label for="bone">选择身体部位</label><select id="bone"></select></div>
+        <p id="parent" class="muted"></p>
+        <div class="axis x"><label for="angle-x">局部X轴</label><output id="value-x">0度</output><input id="angle-x" type="range" min="-180" max="180" step="1" value="0"></div>
+        <div class="axis y"><label for="angle-y">局部Y轴</label><output id="value-y">0度</output><input id="angle-y" type="range" min="-180" max="180" step="1" value="0"></div>
+        <div class="axis z"><label for="angle-z">局部Z轴</label><output id="value-z">0度</output><input id="angle-z" type="range" min="-180" max="180" step="1" value="0"></div>
+        <p class="muted small">角度范围用于转轴测试. 切换关节会保留其他部位的姿态.</p>
+        <div class="buttons"><button id="reset-bone">复位当前关节</button><button id="reset-all">全部复位</button></div>
+        <div class="mouth"><h2>独立口型</h2><div class="field"><label for="expression">选择元音</label><select id="expression"></select></div><div class="field"><label for="mouth-weight">口型权重</label><input id="mouth-weight" type="range" min="0" max="1" step="0.01" value="0"><output id="mouth-value">0.00</output></div></div>
+        <button id="export-pose" class="primary">导出当前姿态</button>
+        <details id="pose-preview" hidden><summary>导出内容预览</summary><textarea id="pose-content" aria-label="动作文件内容" readonly rows="6"></textarea><p class="muted small">如果浏览器没有保存文件, 可复制此处内容保存为动作文件.</p></details>
+      </fieldset>
+      <section class="verification"><h2>绑定验证</h2><p id="binding-summary" class="muted">等待角色加载</p><div id="checks"></div><button id="verify" disabled>重新验证</button></section>
+    </aside>
+  </main>
+  <footer>本机运行的开源基础平台. 姿态导出包含骨骼旋转, 髋位移和口型. 模型不随仓库分发.</footer>
+</body>
+</html>
